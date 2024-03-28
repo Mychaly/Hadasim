@@ -10,11 +10,11 @@ Features:
 ##Display information of corona details of a certain health fund member
 ![moreDetails](https://github.com/Mychaly/Hadasim/assets/145452355/9e822225-732e-4422-b05c-af5328172c0c)
 
-## Editing of existing members and 
+## Editing of existing members and his corona details
 ![updateMember](https://github.com/Mychaly/Hadasim/assets/145452355/de31bc21-1a27-4aae-a64e-96d00546c219)
 ![update](https://github.com/Mychaly/Hadasim/assets/145452355/1e92e218-fc14-4184-bc43-76e09ea3023b)
 
-## Add member
+## Add member and his corona details
 ![addMember](https://github.com/Mychaly/Hadasim/assets/145452355/f1457180-29bf-4227-944f-f0fbb58ad2cf)
 ![add](https://github.com/Mychaly/Hadasim/assets/145452355/995c4855-7955-4d93-b7d3-c58f8d881101)
 
@@ -48,6 +48,7 @@ number of members who are not vaccinated
 
 
 ## Installation:
+
 server - Run the server program
 client -open new terminal in new folder and  install :
         npx create-react-app <"name project">
