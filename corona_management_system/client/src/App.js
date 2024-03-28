@@ -6,9 +6,9 @@ import Summary from "./Components/summary.js";
 function App() {
   return (
     <>
-    {/* <Summary></Summary> */}
+
       <ShowPersons></ShowPersons>
-     {/* <ImageUploader></ImageUploader> */}
+
     </>
   );
 }

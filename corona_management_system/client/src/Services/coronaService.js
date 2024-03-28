@@ -6,13 +6,14 @@ const apiUrl="https://localhost:7069/api/Corona"
 export default {
   getAllCorona: async () => {
     const result = await axios.get(`${apiUrl}`);
-    //const result = await axios.get(`${apiUrl}/Course`);
+    console.log("GET",result.data)
     return result.data;
   },
 
   getCorona: async (id) => {
     const result = await axios.get(`${apiUrl}/`+id);
   //const result = await axios.get(`${apiUrl}/Course`);
+    console.log("get",result)
     return result.data;
   },
 
@@ -29,7 +30,7 @@ export default {
         manufacturerB:corona.manufacturerB,
         manufacturerC: corona.manufacturerC,
         manufacturerD: corona.manufacturerD,
-        personId: corona.personId
+        personId: corona.personId//id של newperson
   }).then(res => {
                console.log("addCorona", corona);
             })
@@ -37,7 +38,6 @@ export default {
   },
 
   updateCorona: async (idP,corona) => {
-    console.log("לפני עדכון")
     console.log(idP)
     console.log(corona)
     axios.put(`${apiUrl}/`+idP,{
@@ -59,10 +59,8 @@ export default {
     return {};
   },
 
-  deleteTask: async (id) => {
-    console.log(id+"למע"+ `${apiUrl}/`+id)
-
+  deleteCorona: async (id) => {    
     const result=await axios.delete(`${apiUrl}/`+id)
-    console.log("deleteTask");
+    console.log("deleteCorona");
   },
 };

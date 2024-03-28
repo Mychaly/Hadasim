@@ -3,18 +3,12 @@ import axios from 'axios';
 import './styles.css';
 
 
-
-
-//import * as React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-
-
-
 
 
 
@@ -53,8 +47,8 @@ const PhotoUploader = (props) => {
           'Content-Type': 'multipart/form-data'
         }
       });
-      setSelectedFile(null); // אפס בחירת הקובץ לאחר העלאה מוצלחת
-      fetchPhoto(); // רענון התמונה לאחר העלאה
+      setSelectedFile(null); // update to null after success
+      fetchPhoto(); // reload picture after upload
     } catch (error) {
       console.error('Error uploading photo:', error);
     }
@@ -64,7 +58,6 @@ const PhotoUploader = (props) => {
 
   
    
-  
     const handleClickOpen = () => {
       setOpen(true);
     };

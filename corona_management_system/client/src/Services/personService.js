@@ -4,8 +4,9 @@ import axios from "axios";
 const apiUrl = "https://localhost:7069/api/Person";
 
 export default {
-  getTasks: async () => {
+  getPersons: async () => {
     const result = await axios.get(`${apiUrl}`);
+    console.log(result.data)
     return result.data;
   },
 
@@ -32,7 +33,7 @@ export default {
         mobilePhone: person.mobilePhone,
       })
       .then((res) => {
-        console.log("addTask", person);
+        console.log("addPerson", person);
       });
     return {};
   },
@@ -59,10 +60,9 @@ export default {
     return {};
   },
 
-  deleteTask: async (id) => {
-    console.log(id + "למע" + `${apiUrl}/` + id);
+  deletePerson: async (id) => {
     const result = await axios.delete(`${apiUrl}/` + id);
-    console.log("deleteTask");
+    console.log("deletePerson");
   },
 
 };

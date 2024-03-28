@@ -65,11 +65,13 @@ const ShowPersons = () => {
   const [dateError, setDateError] = useState(false);
   const [recoveryError, setRecoveryError] = useState(false);
   const [positiveError, setPositiveError] = useState(false);
+  //table section
+  const [expanded, setExpanded] = React.useState(false);
 
  
 
   async function getallDetails() {
-    const persons = await PersonService.getTasks().then();
+    const persons = await PersonService.getPersons();
     setallPersons(persons);
     const coronas=await coronaService.getAllCorona();
     SetAllCoronas(coronas)
@@ -77,9 +79,14 @@ const ShowPersons = () => {
 
   async function addPerson(e) {
     e.preventDefault();
-    await PersonService.addPerson(newPerson);
-    await getallDetails();
-    await addCorona();
+    await PersonService.addPerson(newPerson).then (() => {
+       getallDetails();
+       getallDetails();
+       addCorona();
+    })
+
+   
+    
 }
 
   async function updatePerson(e) {
@@ -101,13 +108,19 @@ const ShowPersons = () => {
   }
 
   async function deleteTodo(id) {
-    await PersonService.deleteTask(id);
+    await PersonService.deletePerson(id);
     await getallDetails();
   }
 
   async function addCorona() {
-    var p=await PersonService.getPerson(newPerson.tz)
-    console.log("tz to send to addcorna",p.id)
+    var p;
+    try {
+       p = await PersonService.getPerson(newPerson.tz);
+    } catch (error) {
+      await getallDetails();
+      p = await PersonService.getPerson(newPerson.tz);
+     
+    }
     const updatedCorona = { 
         id: 0,
         positiveResultDate: newCorona.positiveResultDate,
@@ -120,14 +133,13 @@ const ShowPersons = () => {
         manufacturerB:newCorona.manufacturerB,
         manufacturerC: newCorona.manufacturerC,
         manufacturerD:newCorona.manufacturerD ,
-        personId: p.id 
+        personId: p.id //personId
     };
     setNewCorona(updatedCorona);
     await coronaService.addCorona(updatedCorona);  
   }
 
  async function startUpdate(person) {
-    console.log("אפדייט ראשוני",person)
     const coronaToFull= await coronaService.getCorona(person.id)
     setNewCorona(coronaToFull)
     setNewPerson(person);
@@ -150,12 +162,22 @@ const ShowPersons = () => {
 
    useEffect(() => {
     getallDetails();
-  }, [allPersons]);
+  }, [open]); 
+
+  // useEffect(() => {
+  //  // getallDetails();
+  //  console.log("hi")
+  // },[]); 
 
 
    function getCorona(person){
     const c= allCoronas.find(x=>x.personId==person.id)
     return c;   
+  }
+  function getIdPerson(person){ 
+    const c=allPersons.find(x=>x.tz==person.tz)
+    console.log('id',c)
+    return c.id
   }
 
   function setPut(){
@@ -187,8 +209,7 @@ const ShowPersons = () => {
     
   }
 
-  //table section
-  const [expanded, setExpanded] = React.useState(false);
+  
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -386,7 +407,7 @@ const ShowPersons = () => {
                  setNewPerson({ ...newPerson, dateOfBirth: e.target.value })}}></input>{dateError && <span className="error-message">*invalid</span>}</p>
                <p>city <input type="text" placeholder='עיר ' value={newPerson.city} onChange={(e) => setNewPerson({ ...newPerson, city: e.target.value })}></input></p>
                <p>street <input type="text" placeholder='רחוב ' value={newPerson.street} onChange={(e) => setNewPerson({ ...newPerson, street: e.target.value })}></input> {"  "}
-                 number<input type="number" id="housNum" min={0}  value={newPerson.houseNumber} onChange={(e) => setNewPerson({ ...newPerson, houseNumber: e.target.value })}></input></p>
+                 number<input type="number" id="housNum" min={0} max={999}  maxLength={3}  value={newPerson.houseNumber} onChange={(e) => setNewPerson({ ...newPerson, houseNumber: e.target.value })}></input>{(newPerson.houseNumber==""||(newPerson.houseNumber<0||newPerson.houseNumber>999)) && <span className="error-message">*invalid</span>}</p>
                 <p>phone <input type="text" maxLength={9} value={newPerson.phone} 
                 onChange={(e) =>{ 
                   if (e.target.value === ""||isNaN(e.target.value)||e.target.value.length!=9) {setPhoneError(true);}
@@ -412,12 +433,13 @@ const ShowPersons = () => {
         <DialogActions>
           <Button onClick={handleClose}>cancel</Button>
           <Button onClick={save} disabled={newPerson.fullName === "" || newPerson.tz === ""|| isNaN(newPerson.tz) || newPerson.phone === "" || 
-          isNaN(newPerson.phone) || isNaN(newPerson.mobilePhone)|| newPerson.dateOfBirth > currentDate ||
+          newPerson.phone.length!=9||isNaN(newPerson.phone) || isNaN(newPerson.mobilePhone)|| newPerson.dateOfBirth > currentDate ||
           (newCorona.recoveryDate && (newCorona.recoveryDate > currentDate||(newPerson.dateOfBirth&&newCorona.recoveryDate<newPerson.dateOfBirth)) )||
           (newCorona.dateA!=""&&(newCorona.dateA>currentDate||newCorona.dateA<newPerson.dateOfBirth))||
           (newCorona.dateB!=""&&(newCorona.dateB>currentDate||newCorona.dateB<newPerson.dateOfBirth))||
           (newCorona.dateC!=""&&(newCorona.dateC>currentDate||newCorona.dateC<newPerson.dateOfBirth))||
-          (newCorona.dateD!=""&&(newCorona.dateD>currentDate||newCorona.dateD<newPerson.dateOfBirth))}>save</Button>
+          (newCorona.dateD!=""&&(newCorona.dateD>currentDate||newCorona.dateD<newPerson.dateOfBirth))||
+          (newPerson.houseNumber==""||(newPerson.houseNumber<0||newPerson.houseNumber>999))}>save</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>
