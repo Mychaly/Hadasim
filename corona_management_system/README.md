@@ -33,16 +33,17 @@ number of members who are not vaccinated
 
 
 Technologies Used:
-        Frontend:
+
+  Frontend:
         HTML, CSS, JavaScript
         Framework - React.js  for building interactive user interfaces.
 
-        Backend:
+  Backend:
         C# with  for server-side logic.
         Database management system SQL for storing member information and coronavirus data.
         Entity Framework technology that handles interfacing to the database
 
-        APIs:
+  APIs:
         Integrating with external APIs for fetching real-time coronavirus data or additional member information if necessary.
 
 
