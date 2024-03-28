@@ -53,7 +53,7 @@ Features:
 
 server - Run the server program
 client -open new terminal in new folder and  install :
-       <button> npx create-react-app <"name project"></button>
+        npx create-react-app project
         npm install axios @0.24.0
         npm install @mui/material @emotion/react @emotion/styled
         npm install @mui/icons-material
